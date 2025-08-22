@@ -2,78 +2,42 @@
 ===========================================
 ASSIGNMENT 4: OBJECTS AND OBJECT METHODS
 ===========================================
-
-📚 LEARNING OBJECTIVES:
-- Work with object properties and methods
-- Use Object static methods (keys, values, entries, assign)
-- Practice object destructuring and property shorthand
-- Understand this context in object methods
-- Create objects with computed properties
-
-💡 CONCEPTS COVERED:
-1. Object literal syntax and property shorthand
-2. Object methods and 'this' keyword
-3. Object.keys(), Object.values(), Object.entries()
-4. Object.assign() for merging objects
-5. Object destructuring with renaming
-6. Computed property names
-7. Method chaining in objects
-
-📖 EXAMPLES:
-const person = {
-    name: 'John',
-    age: 30,
-    greet() {
-        return `Hello, I'm ${this.name}`;
-    }
-};
-
-// Object destructuring
-const { name, age } = person;
-
-// Object.keys/values/entries
-const keys = Object.keys(person);     // ['name', 'age', 'greet']
-const values = Object.values(person); // ['John', 30, function]
-
-// Computed properties
-const prop = 'dynamicKey';
-const obj = { [prop]: 'value' };
 */
 
-// =================== YOUR CODE STARTS HERE ===================
+
 
 // TODO 1: Create a calculator object with methods that support chaining
 const calculator = {
     value: 0,
 
     add(num) {
-        /* YOUR CODE HERE */.value += num;
-        return /* YOUR CODE HERE */; // Return this for chaining
+        this.value += num;
+        return this; // Return this for chaining
     },
 
-    subtract: /* YOUR CODE HERE */(num) {
-        this.value /* YOUR CODE HERE */ num;
+    subtract(num) {
+        this.value -= num;
         return this;
     },
 
     multiply(num) {
-        this./* YOUR CODE HERE */ *= num;
-        return /* YOUR CODE HERE */;
+        this.value *= num;
+        return this;
     },
 
     divide(num) {
         if (num !== 0) {
-            this.value /* YOUR CODE HERE */ num;
+            this.value /= num;
         }
         return this;
     },
 
     getValue() {
-        return /* YOUR CODE HERE */.value;
+        return this.value;
     },
 
     reset() {
-        /* YOUR CODE HERE */.value = 0;
+        this.value = 0;
         return this;
     }
 };
@@ -81,20 +45,20 @@ const calculator = {
 // TODO 2: Work with Object static methods
 const student = {
     id: 1,
-    name: 'Alice Johnson',
-    email: 'alice@example.com',
+    name: 'Emilia Clarke',
+    email: 'emilia@example.com',
     courses: ['Math', 'Science', 'History'],
     gpa: 3.8
 };
 
 // Get object keys
-const studentKeys = Object./* YOUR CODE HERE */(student);
+const studentKeys = Object.keys(student);
 
 // Get object values
-const studentValues = Object./* YOUR CODE HERE */(student);
+const studentValues = Object.values(student);
 
 // Get object entries (key-value pairs)
-const studentEntries = Object./* YOUR CODE HERE */(student);
+const studentEntries = Object.entries(student);
 
 // TODO 3: Use Object.assign to merge objects
 const defaultPreferences = {
@@ -109,23 +73,23 @@ const userPreferences = {
     autoSave: true
 };
 
-const finalPreferences = Object./* YOUR CODE HERE */({}, /* YOUR CODE HERE */, userPreferences);
+const finalPreferences = Object.assign({}, defaultPreferences, userPreferences);
 
 // TODO 4: Object destructuring with renaming and default values
 const {
     name: studentName,
     email: studentEmail,
-    gpa: gradePointAverage = /* YOUR CODE HERE */,
-    graduationYear = /* YOUR CODE HERE */
-} = /* YOUR CODE HERE */;
+    gpa: gradePointAverage = 0,
+    graduationYear = 2024
+} = student;
 
 // TODO 5: Create an object with computed property names
 const createDynamicObject = (keyName, keyValue) => {
     return {
         id: Math.random(),
         timestamp: Date.now(),
-        [/* YOUR CODE HERE */]: keyValue,
-        [`${keyName}_uppercase`]: /* YOUR CODE HERE */.toUpperCase()
+        [keyName]: keyValue,
+        [`${keyName}_uppercase`]: keyValue.toUpperCase()
     };
 };
 
@@ -134,45 +98,45 @@ const shoppingCart = {
     items: [],
 
     addItem(name, price, quantity = 1) {
-        const existingItem = this.items./* YOUR CODE HERE */(item => item.name === name);
+        const existingItem = this.items.find(item => item.name === name);
 
         if (existingItem) {
-            existingItem.quantity /* YOUR CODE HERE */ quantity;
+            existingItem.quantity += quantity;
         } else {
-            this.items./* YOUR CODE HERE */({
-                name: /* YOUR CODE HERE */,
+            this.items.push({
+                name: name,
                 price: price,
-                quantity: /* YOUR CODE HERE */
+                quantity: quantity
             });
         }
         return this;
     },
 
     removeItem(name) {
-        this.items = this.items./* YOUR CODE HERE */(item => /* YOUR CODE HERE */);
+        this.items = this.items.filter(item => item.name !== name);
         return this;
     },
 
     getTotal() {
-        return this.items./* YOUR CODE HERE */((total, item) => {
-            return total + (/* YOUR CODE HERE */ * item.quantity);
-        }, /* YOUR CODE HERE */);
+        return this.items.reduce((total, item) => {
+            return total + (item.price * item.quantity);
+        }, 0);
     },
 
     getItemCount() {
-        return this.items./* YOUR CODE HERE */((count, item) => /* YOUR CODE HERE */, 0);
+        return this.items.reduce((count, item) => count + item.quantity, 0);
     },
 
     clear() {
-        /* YOUR CODE HERE */.items = [];
+        this.items = [];
         return this;
     }
 };
 
 // TODO 7: Create a person object with nested methods
 const person = {
-    firstName: 'John',
-    lastName: 'Doe',
+    firstName: 'Emma',
+    lastName: 'Watson',
     age: 30,
     address: {
         street: '123 Main St',
@@ -181,20 +145,19 @@ const person = {
     },
 
     getFullName() {
-        return /* YOUR CODE HERE */`${this.firstName} ${this.lastName}`;
+        return `${this.firstName} ${this.lastName}`;
     },
 
     getFullAddress() {
-        const { street, city, zipCode } = /* YOUR CODE HERE */.address;
+        const { street, city, zipCode } = this.address;
         return `${street}, ${city} ${zipCode}`;
     },
 
     introduce() {
-        return /* YOUR CODE HERE */`Hi, I'm ${this.getFullName()} and I'm ${this.age} years old.`;
+        return `Hi, I'm ${this.getFullName()} and I'm ${this.age} years old.`;
     }
 };
 
-// =================== TEST YOUR CODE ===================
 
 console.log('=== ASSIGNMENT 4 RESULTS ===');
 
@@ -243,17 +206,17 @@ console.log('Address:', person.getFullAddress());
 console.log('Introduction:', person.introduce());
 
 /*
-🎯 EXPECTED OUTPUT EXAMPLE:
+EXPECTED OUTPUT EXAMPLE:
 === ASSIGNMENT 4 RESULTS ===
 Calculator test:
 Calculation result: 5
 Student object analysis:
 Keys: ['id', 'name', 'email', 'courses', 'gpa']
-Values: [1, 'Alice Johnson', 'alice@example.com', Array(3), 3.8]
-Entries: [['id', 1], ['name', 'Alice Johnson'], ...]
+Values: [1, 'Emilia Clarker', 'emilia@example.com', Array(3), 3.8]
+Entries: [['id', 1], ['name', 'Emilia Clarker'], ...]
 Merged preferences: {theme: 'dark', language: 'english', notifications: true, autoSave: true}
 Destructured student info:
-Name: Alice Johnson, Email: alice@example.com
+Name: Emilia Clarker, Email: emilia@example.com
 GPA: 3.8, Graduation Year: 2024
 Dynamic object: {id: 0.123, timestamp: 1234567890, status: 'active', status_uppercase: 'ACTIVE'}
 Shopping cart test:
@@ -264,5 +227,5 @@ After removing mouse - Total: $ 1074
 Person info:
 Full name: John Doe
 Address: 123 Main St, Boston 02101
-Introduction: Hi, I'm John Doe and I'm 30 years old.
+Introduction: Hi, I'm Emma Watson and I'm 30 years old.
 */
